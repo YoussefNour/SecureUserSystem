@@ -1,0 +1,28 @@
+{
+  "name": "secureusersystem",
+  "version": "1.0.0",
+  "description": "secure authentication system ",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YoussefNour/SecureUserSystem.git"
+  },
+  "keywords": [
+    "user",
+    "security",
+    "CRUD",
+    "authentication"
+  ],
+  "author": "Youssef Ossama",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YoussefNour/SecureUserSystem/issues"
+  },
+  "homepage": "https://github.com/YoussefNour/SecureUserSystem",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
