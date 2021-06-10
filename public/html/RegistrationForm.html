@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Registration</title>
+        <link rel="icon" href="/Images/retail-computer-icons-e-commerce-sales-mega-offer-removebg-preview.png">
+        <link rel="stylesheet" href="./../css/basic.css">
+        <meta http-equiv="refresh" content="1000">
+        <meta charset="UTF-8">
+        <meta name="description" content="Youssef'sWebsite">
+        <meta name="author" content="Youssef Ossama">
+        <meta name="keywords" content="Joe,Booster,store">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    
+    <body>
+        <nav class="mainNav">
+            <a class="navAnchors" href="index.html"><img width="40px" src="/Images/retail-computer-icons-e-commerce-sales-mega-offer-removebg-preview.png" alt="Logo"></a>
+            <a class="navAnchors" href="index.html">TraderJoes</a>
+            <a class="navAnchors" href="index.html">Home</a>
+            <a class="navAnchors" href="RegistrationForm.html">Register</a>
+            <a class="navAnchors" href="LoginForm.html">Login</a>
+        </nav>
+        <div class="registerdiv">
+            <form action="/api/users/register" method="POST" class="registerForm">
+                <b><label style="font-size: 20px;">Registration</label></b>
+                <div class="subdivV">
+                <input  type="text" required name="fullname" placeholder="fullname">
+                <input type="text" required name="Username" placeholder="username">
+                <input type="password" required name="password" placeholder="password">
+                <input type="email" required name="email" placeholder="email">
+                <label>Gender</label>
+                <div class="subdivH">
+                    <label for="male">male</label>
+                    <input id="male" type="radio" name="gender" value="male">
+                </div>
+                <div class="subdivH">
+                    <label for="female">female</label>
+                    <input id="female" type="radio" name="gender" value="female">
+                </div>
+                <label>country</label>
+                <select name="country">
+                    <option value="Egypt">Egypt</option>
+                    <option value="UAE">UAE</option>
+                    <option value="KSA">KSA</option>
+                    <option value="Bahrain">Bahrain</option>
+                </select>
+                <div class="subdivH">
+                    <label>skying</label>
+                    <input name="Skying" type="checkbox" value="Skying">
+                </div>
+                <div class="subdivH">
+                    <label>swimming</label>
+                    <input name="Swimming" type="checkbox" value="Swimming"> 
+                </div>
+                <div class="subdivH">
+                    <label>running</label>
+                    <input name="hobbies" type="checkbox" value="Running">
+                </div>
+                <textarea  rows="3" cols="30" name="notes" placeholder="notes"></textarea>
+                <div class="subdivH">
+                    <label>Upload Photo</label>
+                    <input name="Avatar" type="file" accept=".jpeg,.png,.jpg"> 
+                </div>
+                </div>
+                <input type="reset" value="Reset">
+                <input type="submit" value="Register">
+            </form>
+        </div>
+
+        <footer>
+            <p>
+                one of Joes Inc. Websites
+            </p>
+            <a target="_blank" href="https://web.facebook.com/youssefossama420/">
+                <img src="/Images/facebook-logo-circle-new.png" alt="FaceBook" width="50px">
+            </a>
+        </footer>
+    </body>
+
+</html>
