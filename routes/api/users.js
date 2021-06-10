@@ -1,76 +1,81 @@
 const router = require("express").Router();
-const auth = require("../auth");
-const userModel = require("../../models/Users")
-const passport = require('passport');
-const crypto = require('crypto');
+const { auth, checkAuthenticated, checkUnAuthenticated } = require("../auth");
+const userModel = require("../../models/Users");
+const passport = require("passport");
+const crypto = require("crypto");
+const Users = require("../../models/Users");
 
 // define the login route
-router.get("/login", auth.optional, (req, res) => {
+router.get("/login", checkUnAuthenticated, (req, res) => {
   return res.render("./login");
 });
 
-//POST login route (optional, everyone has access)
-router.post("/login", auth.optional, (req, res, next) => {
-  const {email,password} = req.body;
+/**
+ * Login user with meail and password
+ */
+router.post(
+  "/login",
+  checkUnAuthenticated,
+  passport.authenticate("local", {
+    successRedirect: "/api/users/success",
+    failureRedirect: "/api/users/failure",
+  })
+);
 
-  if (!email) {
-    return res.status(422).json({
-      errors: {
-        email: "is required",
-      },
-    });
-  }
-
-  if (!password) {
-    return res.status(422).json({
-      errors: {
-        password: "is required",
-      },
-    });
-  }
-
-  return passport.authenticate(
-    "local",
-    { session: false },
-    (err, passportUser, info) => {
-      if (err) {
-        return next(err);
-      }
-
-      if (passportUser) {
-        const user = passportUser;
-        user.token = passportUser.generateJWT();
-
-        return res.json({ user: user.toAuthJSON() });
-      }
-      return res.status(400);
-    }
-  )(req, res, next);
+/**
+ * If user login is successfull
+ */
+router.get("/success", (req, res) => {
+  console.log("login success");
+  return res.redirect("/api");
 });
 
 // define the register route
-router.get("/register", auth.optional, (req, res) => {
-  return res.render("./registration",{error:false});
+router.get("/register", checkUnAuthenticated, (req, res) => {
+  return res.render("./registration", { error: false });
 });
 
 // define the create route
-router.post("/register", auth.optional, (req, res) => {
+router.post("/register", checkUnAuthenticated, (req, res) => {
   console.log(req.body);
   const { userName, email, firstName, lastName, password, confirmPassword } =
     req.body;
-  if(password===confirmPassword){
+  if (password === confirmPassword) {
     const user = new userModel({
       userName,
       email,
       firstName,
       lastName,
     });
-    user.setPassword(password)
+    user.setPassword(password);
     user.save();
     return res.redirect("/api/users/login");
-  }else{
-    return res.render("./registration",{error:"passwords don't match"})
+  } else {
+    return res.render("./registration", { error: "passwords don't match" });
   }
+});
+
+router.get("/", checkAuthenticated, (req, res) => {
+  Users.find({}, function (err, users) {
+    console.log(users);
+    return res.render("./users", { users });
+  });
+});
+
+router.post("/delete", checkAuthenticated, (req, res) => {
+  const { _id } = req.body;
+  Users.findOneAndDelete({ _id: _id }, (error, user) => {
+    if (error) {
+      res.status(404).json("you must be logged in to delete");
+    } else {
+      return res.send({ pass: true });
+    }
+  });
+});
+
+router.get("/logout", checkAuthenticated, (req, res) => {
+  req.logout();
+  res.redirect("/api");
 });
 
 module.exports = router;

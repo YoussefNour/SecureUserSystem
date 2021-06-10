@@ -25,4 +25,20 @@ const auth = {
   }),
 };
 
-module.exports = auth;
+const checkAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    next()
+  }else{
+    return res.status(404).json({error:"you must login to access this page"})
+  }
+};
+
+const checkUnAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return res.status(404).json({error:"you are already logged in"})
+  }else{
+    next()
+  }
+};
+
+module.exports = {auth,checkAuthenticated,checkUnAuthenticated};

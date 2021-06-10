@@ -1,31 +1,44 @@
 // create an express app
-const express = require("express")
-const app = express()
-const errorHandler = require('errorhandler');
-const session = require('express-session');
-const cors = require('cors');
-const path = require('path');
-const bodyParser = require('body-parser');
+const express = require("express");
+const app = express();
+const errorHandler = require("errorhandler");
+const session = require("express-session");
+const cors = require("cors");
+const path = require("path");
+const bodyParser = require("body-parser");
 const dotenv = require("dotenv").config();
 
-const mongoose = require('mongoose');
-const userModel = require("./models/Users")
+const mongoose = require("mongoose");
+const userModel = require("./models/Users");
 
-app.set("view engine", 'ejs')
-app.use(express.urlencoded({extended: true}))
-app.use(require('./routes'));
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+const passport = require("passport");
+const initalizePassport = require("./config/passport");
+initalizePassport(passport);
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: true,
+    saveUninitialized: true,
+    cookie: { maxAge: 9000000000 },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-require('./config/passport');
+app.use(require("./routes"));
+
 mongoose.promise = global.Promise;
-mongoose.set('debug', true);
+mongoose.set("debug", true);
 
 app.use(cors());
-app.use(require('morgan')('dev'));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'passport-tutorial', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+app.use(require("morgan")("dev"));
+app.use(express.static(path.join(__dirname, "public")));
 
 //Configure Mongoose
-mongoose.connect(process.env.MONGOLINK,{
+mongoose.connect(process.env.MONGOLINK, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
@@ -33,5 +46,4 @@ mongoose.connect(process.env.MONGOLINK,{
 });
 
 // start the server listening for requests
-app.listen(process.env.PORT || 3000, 
-	() => console.log("Server is running..."))
+app.listen(process.env.PORT || 3000, () => console.log("Server is running..."));

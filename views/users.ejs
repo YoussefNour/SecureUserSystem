@@ -11,7 +11,7 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/login.css" />
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -22,7 +22,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <meta http-equiv="refresh" content="1000" />
     <meta charset="UTF-8" />
-    <meta name="description" content="Youssef'sWebsite" />
+    <meta name="description" content="Youssef's Website" />
     <meta name="author" content="Youssef Ossama" />
     <meta name="keywords" content="Joe,Booster,store" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,10 +33,48 @@
       <div class="row">
         <div class="col-md-6">
           <div class="card">
-              <p>users</p>
+            <table>
+              <tr>
+                <th>User name</th>
+                <th>Email</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>password</th>
+              </tr>
+              <%users.forEach(user => {%>
+              <tr>
+                <td><%=user.userName%></td>
+                <td><%=user.email%></td>
+                <td><%=user.firstName%></td>
+                <td><%=user.lastName%></td>
+                <td>
+                  <button id="<%= user._id %>" onclick="deleteUser(event)">
+                    delete
+                  </button>
+                </td>
+                <td><%=user.password%></td>
+              </tr>
+              <%}) %>
+            </table>
           </div>
         </div>
       </div>
     </div>
   </body>
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <script>
+    const deleteUser = (e) => {
+      const _id = e.currentTarget.id;
+      
+      $.ajax({
+        method: "post",
+        url: "/api/users/delete",
+        data: {_id:_id.toString()}
+      }).done(data=>{
+        if(data.pass){
+          window.location.href = "/api/users/"
+        }
+      });
+    };
+  </script>
 </html>

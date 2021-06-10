@@ -34,6 +34,13 @@
         <div class="col-md-6">
           <div class="card">
               <p>hello to my website</p>
+              <%if(username){%>
+                <button><a href="/api/users">manage users</a></button>
+                <button><a href="/api/users/logout">logout</a></button>
+              <%}else{%>
+                <button><a href="/api/users/login">Login</a></button>
+                <button><a href="/api/users/register">Register</a></button>
+              <%}%>
           </div>
         </div>
       </div>
