@@ -35,11 +35,12 @@
         <div class="col-md-6">
           <div class="card">
             <div class="box style-box">
-              <h1>hello to my website</h1>
               <%if(username){%>
+              <h1><%=username%>'s Dashboard</h1>
               <button type="submit"><a href="/api/users">manage users</a></button>
               <button type="submit"><a href="/api/users/logout">logout</a></button>
               <%}else{%>
+              <h1>Secure code project</h1>
               <button type="submit"><a href="/api/users/login">Login</a></button>
               <button type="submit"><a href="/api/users/register">Register</a></button>
               <%}%>

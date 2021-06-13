@@ -22,7 +22,7 @@ app.use(
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 9000000000 },
+    cookie: { maxAge: 8.64e+7 },
   })
 );
 app.use(passport.initialize());
@@ -31,7 +31,8 @@ app.use(passport.session());
 app.use(require("./routes"));
 
 mongoose.promise = global.Promise;
-mongoose.set("debug", true);
+
+//mongoose.set("debug", true);
 
 app.use(cors());
 app.use(require("morgan")("dev"));
