@@ -7,7 +7,9 @@ const Users = require("../../models/Users");
 
 // define the login route
 router.get("/login", checkUnAuthenticated, (req, res) => {
-  return res.render("./login");
+  console.log(req.query);
+  const error = req.query.error?req.query.error:null;
+  return res.render("./login",{error});
 });
 
 /**
@@ -26,13 +28,19 @@ router.post(
  * If user login is successfull
  */
 router.get("/success", (req, res) => {
-  console.log("login success");
   return res.redirect("/api");
 });
 
+router.get("/failure", (req, res) => {
+  const error = "wrong email or password";
+  return res.redirect(`/api/users/login?error=${error}`);
+});
+
+
 // define the register route
 router.get("/register", checkUnAuthenticated, (req, res) => {
-  return res.render("./registration", { error: false });
+  const error = req.query.error ? req.query.error:null; 
+  return res.render("./registration", {error});
 });
 
 // define the create route
@@ -46,19 +54,21 @@ router.post("/register", checkUnAuthenticated, (req, res) => {
       email,
       firstName,
       lastName,
+      role:"user"
     });
     user.setPassword(password);
     user.save();
     return res.redirect("/api/users/login");
   } else {
-    return res.render("./registration", { error: "passwords don't match" });
+    const error = "passwords don't match";
+    return res.redirect(`/api/users/register?error=${error}`);
   }
 });
 
 router.get("/", checkAuthenticated, (req, res) => {
-  Users.find({}, function (err, users) {
-    console.log(users);
-    return res.render("./users", { users });
+  let filter = req.user.role === "admin" ? "userName email firstName lastName password" : "userName email firstName lastName";
+  Users.find({},filter, function (err, users) {
+    return res.render("./users", { users, loggedinUser:{role:req.user.role,_id:req.user._id} });
   });
 });
 

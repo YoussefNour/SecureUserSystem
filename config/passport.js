@@ -15,8 +15,9 @@ const initalize = passport => {
          * Sanitize user input first
          */
         email = sanitize(email)
+        console.log(password);
         password = sanitize(password)
-
+        console.log(password);
         /**
          * Check if user exists and get user data from database
          */

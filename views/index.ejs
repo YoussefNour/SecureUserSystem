@@ -11,7 +11,8 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/home.css" />
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -33,14 +34,16 @@
       <div class="row">
         <div class="col-md-6">
           <div class="card">
-              <p>hello to my website</p>
+            <div class="box style-box">
+              <h1>hello to my website</h1>
               <%if(username){%>
-                <button><a href="/api/users">manage users</a></button>
-                <button><a href="/api/users/logout">logout</a></button>
+              <button type="submit"><a href="/api/users">manage users</a></button>
+              <button type="submit"><a href="/api/users/logout">logout</a></button>
               <%}else{%>
-                <button><a href="/api/users/login">Login</a></button>
-                <button><a href="/api/users/register">Register</a></button>
+              <button type="submit"><a href="/api/users/login">Login</a></button>
+              <button type="submit"><a href="/api/users/register">Register</a></button>
               <%}%>
+            </div>
           </div>
         </div>
       </div>
